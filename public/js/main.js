@@ -97,3 +97,43 @@ $('#buttonCall').on('click', function() {
         }
         //call pc.hangup() when want to finish
 });
+
+
+DetectRTC.load(function() {
+    DetectRTC.isScreenCapturingSupported
+    DetectRTC.isSctpDataChannelsSupported
+    DetectRTC.isRtpDataChannelsSupported
+    DetectRTC.isAudioContextSupported
+    DetectRTC.isWebRTCSupported
+    console.log(DetectRTC.isWebRTCSupported);
+    DetectRTC.isDesktopCapturingSupported
+    DetectRTC.isMobileDevice
+
+    DetectRTC.isWebSocketsSupported
+    DetectRTC.isWebSocketsBlocked
+
+    DetectRTC.isWebsiteHasWebcamPermissions        // getUserMedia allowed for HTTPs domain in Chrome?
+    DetectRTC.isWebsiteHasMicrophonePermissions    // getUserMedia allowed for HTTPs domain in Chrome?
+
+    DetectRTC.audioInputDevices    // microphones
+    DetectRTC.audioOutputDevices   // speakers
+    DetectRTC.videoInputDevices    // cameras
+
+    DetectRTC.osName
+    DetectRTC.osVersion
+    console.log(DetectRTC.browser.name );
+    DetectRTC.browser.name === 'Edge' || 'Chrome' || 'Firefox'
+    DetectRTC.browser.version
+    DetectRTC.browser.isChrome
+    DetectRTC.browser.isFirefox
+    DetectRTC.browser.isOpera
+    DetectRTC.browser.isIE
+    DetectRTC.browser.isSafari
+    DetectRTC.browser.isEdge
+
+    DetectRTC.browser.isPrivateBrowsing // incognito or private modes
+
+    DetectRTC.isCanvasSupportsStreamCapturing
+    DetectRTC.isVideoSupportsStreamCapturing
+
+});
