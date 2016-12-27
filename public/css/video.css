@@ -1,0 +1,20 @@
+#displayVideo{
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	width: 80%;
+	height: 80%;
+	background: #000000;
+
+}
+#local{
+	margin-left: 10px;
+	width: 30%;
+	float: left;
+	background: green;
+}
+#remote {
+	width: 60%;
+	background: red;
+	float: left;
+}
