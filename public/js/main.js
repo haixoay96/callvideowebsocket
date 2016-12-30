@@ -49,6 +49,7 @@ $('#buttonLogin').on('click', function() {
         };
         pc.onClose = function() {
             // Khi cuộc goi kết thúc đóng giao diện
+            clearTimeout(idTime);
             console.log('close');
 
         };
@@ -103,6 +104,7 @@ $('#buttonCall').on('click', function() {
     };
     pc.onClose = function() {
         // Khi cuộc goi kết thúc đóng giao diện
+        clearTimeout(idTime);
         console.log('close');
     };
     pc.onSuccess = function() {
@@ -131,16 +133,16 @@ DetectRTC.load(function() {
     DetectRTC.isWebSocketsSupported
     DetectRTC.isWebSocketsBlocked
 
-    DetectRTC.isWebsiteHasWebcamPermissions        // getUserMedia allowed for HTTPs domain in Chrome?
-    DetectRTC.isWebsiteHasMicrophonePermissions    // getUserMedia allowed for HTTPs domain in Chrome?
+    DetectRTC.isWebsiteHasWebcamPermissions // getUserMedia allowed for HTTPs domain in Chrome?
+    DetectRTC.isWebsiteHasMicrophonePermissions // getUserMedia allowed for HTTPs domain in Chrome?
 
-    DetectRTC.audioInputDevices    // microphones
-    DetectRTC.audioOutputDevices   // speakers
-    DetectRTC.videoInputDevices    // cameras
+    DetectRTC.audioInputDevices // microphones
+    DetectRTC.audioOutputDevices // speakers
+    DetectRTC.videoInputDevices // cameras
 
     DetectRTC.osName
     DetectRTC.osVersion
-    console.log(DetectRTC.browser.name );
+    console.log(DetectRTC.browser.name);
     DetectRTC.browser.name === 'Edge' || 'Chrome' || 'Firefox'
     DetectRTC.browser.version
     DetectRTC.browser.isChrome
