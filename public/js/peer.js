@@ -68,7 +68,7 @@ function peer(nameId) {
                 var name = data.name;
                 setTimeout(function() {
                     if (point.onCall) {
-                        point.onCall(name);
+                        point.onCall(name, data.video);
                     }
                 }, 0);
                 point.reply = function(answer) {

@@ -5,7 +5,8 @@ $('#buttonLogin').on('click', function() {
     pc.onLogin = function(data) {
         alert(data);
     };
-    pc.onCall = function(name) {
+    pc.onCall = function(name, video) {
+        console.log(video);
         var idTime = setTimeout(function() {
             console.log('Huy cuoc goi!');
             pc.hangup();
@@ -62,7 +63,7 @@ $('#buttonLogin').on('click', function() {
 
 $('#buttonCall').on('click', function() {
     var name = $('#inputCall').val();
-    pc.call(name, true);
+    pc.call(name, false);
     var idTime = setTimeout(function() {
         console.log('Huy cuoc goi!');
         pc.cancelCall(name);
