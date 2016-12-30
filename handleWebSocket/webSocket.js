@@ -40,6 +40,7 @@ var handleWebSocket = (wss) => {
                     }
                     var name = data.name;
                     var codeCall = data.codeCall;
+                    var video = data.video;
                     var index = _.indexOf(listUser, name);
                     if (index !== -1) {
                         console.log(socket.name + ' calling to ' + name);
@@ -48,6 +49,7 @@ var handleWebSocket = (wss) => {
                                 client.send(JSON.stringify({
                                     intent: 'on_call',
                                     name: socket.name,
+                                    video: video,
                                     codeCall: codeCall
                                 }));
                             }

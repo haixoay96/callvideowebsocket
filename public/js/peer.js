@@ -20,6 +20,10 @@ var configStream = {
 function peer(nameId) {
     this.codeCall = undefined;
     this.pc = undefined;
+    this.configStream = {
+        "audio": true,
+        "video": true
+    };
     var point = this;
     this.socket = new WebSocket('wss://' + window.location.host);
     this.socket.onopen = function() {
@@ -82,6 +86,16 @@ function peer(nameId) {
                         }));
                         point.hangup();
                         return;
+                    }
+                    if(data.video){
+                        point.configStream = {
+                            "audio": true,
+                            "video": true
+                        };
+                    }else {
+                        point.configStream = {
+                            "audio": true
+                        };
                     }
                     point.pc = new RTCPeerConnection(config);
                     point.pc.onaddstream = function(event) {
@@ -165,7 +179,7 @@ function peer(nameId) {
                     }
                 };
                 // get stream
-                navigator.mediaDevices.getUserMedia(configStream)
+                navigator.mediaDevices.getUserMedia(point.configStream)
                     .then(function(stream) {
                         console.log('local');
                         point.pc.addStream(stream);
@@ -216,7 +230,7 @@ function peer(nameId) {
                 if (point.codeCall !== data.codeCall) {
                     return;
                 }
-                navigator.mediaDevices.getUserMedia(configStream)
+                navigator.mediaDevices.getUserMedia(point.configStream)
                     .then((stream) => {
                         console.log('local');
                         point.pc.addStream(stream);
@@ -304,10 +318,20 @@ function peer(nameId) {
         }
     };
     // when call
-    this.call = function(name) {
+    this.call = function(name, video) {
         if (point.pc !== undefined || point.codeCall !== undefined) {
             console.log('Khong ther goi');
             return;
+        }
+        if (video) {
+            point.configStream = {
+                "audio": true,
+                "video": true
+            };
+        } else {
+            point.configStream = {
+                "audio": true
+            };
         }
         console.log('Bắt đầu gọi!');
         point.pc = new RTCPeerConnection(config);
@@ -315,6 +339,7 @@ function peer(nameId) {
         point.socket.send(JSON.stringify({
             intent: 'call',
             name: name,
+            video: video,
             codeCall: point.codeCall
         }));
     };
