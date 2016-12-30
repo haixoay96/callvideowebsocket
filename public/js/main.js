@@ -9,6 +9,7 @@ $('#buttonLogin').on('click', function() {
         console.log(video);
         var idTime = setTimeout(function() {
             console.log('Huy cuoc goi!');
+            $('#iscalling').modal('toggle');
             pc.hangup();
         }, 20000);
         $('#iscalling').modal('toggle');
@@ -67,6 +68,7 @@ $('#buttonCall').on('click', function() {
     pc.call(name, false);
     var idTime = setTimeout(function() {
         console.log('Huy cuoc goi!');
+        $('#callingto').modal('toggle');
         pc.cancelCall(name);
     }, 10000);
     $('#callingto').modal('toggle');
