@@ -6,6 +6,10 @@ $('#buttonLogin').on('click', function() {
         alert(data);
     };
     pc.onCall = function(name) {
+        var idTime = setTimeout(function() {
+            console.log('Huy cuoc goi!');
+            pc.hangup();
+        }, 20000);
         $('#iscalling').modal('toggle');
         $('#iscalling').off('click');
         $('#iscalling').on('click', function(event) {
@@ -19,6 +23,7 @@ $('#buttonLogin').on('click', function() {
             }
             if (answer === 'close') {
                 $('#iscalling').modal('toggle');
+                clearTimeout(idTime);
                 pc.reply(false);
                 return;
             }
@@ -28,10 +33,7 @@ $('#buttonLogin').on('click', function() {
             console.log(name);
             pc.finish(name);
         });
-        var idTime = setTimeout(function() {
-            console.log('Huy cuoc goi!');
-            pc.hangup();
-        }, 20000);
+
         console.log('Co nguoi goi');
         pc.onLocalStream = function(stream) {
             $('#local').attr('src', window.URL.createObjectURL(stream));
@@ -40,6 +42,7 @@ $('#buttonLogin').on('click', function() {
             $('#remote').attr('src', window.URL.createObjectURL(stream));
         };
         pc.onCancel = function() {
+            clearTimeout(idTime);
             $('#iscalling').modal('toggle');
             console.log('cancel');
         };
@@ -60,17 +63,31 @@ $('#buttonLogin').on('click', function() {
 $('#buttonCall').on('click', function() {
     var name = $('#inputCall').val();
     pc.call(name);
+    var idTime = setTimeout(function() {
+        console.log('Huy cuoc goi!');
+        pc.cancelCall(name);
+    }, 10000);
+    $('#callingto').modal('toggle');
+    $('#callingto').off('click');
+    $('#callingto').on('click', function(event) {
+        var answer = event.target.getAttribute('answer');
+        console.log(answer);
+        if (answer === 'close') {
+            $('#callingto').modal('toggle');
+            pc.cancelCall(name);
+            clearTimeout(idTime);
+            return;
+        }
+    });
     $('#hangup').off('click');
     $('#hangup').on('click', function() {
         console.log(name);
         pc.finish(name);
     });
-    var idTime = setTimeout(function() {
-        console.log('Huy cuoc goi!');
-        pc.cancelCall(name);
-    }, 10000);
+
     //call when want cancel call pc.cancelCall();
     pc.onReject = function() {
+        $('#callingto').modal('toggle');
         clearTimeout(idTime);
         console.log('Tu choi');
     };
@@ -88,6 +105,7 @@ $('#buttonCall').on('click', function() {
         console.log('close');
     };
     pc.onSuccess = function() {
+        $('#callingto').modal('toggle');
         clearTimeout(idTime);
         console.log('successfull');
     };
