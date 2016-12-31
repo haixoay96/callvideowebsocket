@@ -87,12 +87,12 @@ function peer(nameId) {
                         point.hangup();
                         return;
                     }
-                    if(data.video){
+                    if (data.video) {
                         point.configStream = {
                             "audio": true,
                             "video": true
                         };
-                    }else {
+                    } else {
                         point.configStream = {
                             "audio": true
                         };
@@ -283,6 +283,32 @@ function peer(nameId) {
                     }
                 }, 0);
                 break;
+            case 'on_switch_audio':
+                if (data.codeCall === undefined) {
+                    return;
+                }
+                if (point.codeCall !== data.codeCall) {
+                    return;
+                }
+                setTimeout(function() {
+                    if (point.onSwitchAudio) {
+                        point.onSwitchAudio(data.status);
+                    }
+                }, 0);
+                break;
+            case 'on_switch_video':
+                if (data.codeCall === undefined) {
+                    return;
+                }
+                if (point.codeCall !== data.codeCall) {
+                    return;
+                }
+                setTimeout(function() {
+                    if (point.onSwitchVideo) {
+                        point.onSwitchVideo(data.status);
+                    }
+                }, 0);
+                break;
             case 'on_finish':
                 console.log('finish');
                 if (data.codeCall === undefined) {
@@ -342,6 +368,32 @@ function peer(nameId) {
             video: video,
             codeCall: point.codeCall
         }));
+    };
+    this.switchAudio = function(name) {
+        if (point.localStream) {
+            if (point.localStream.getAudioTracks()[0]) {
+                point.localStream.getAudioTracks()[0].enabled = !(point.localStream.getAudioTracks()[0].enabled);
+                point.socket.send(JSON.stringify({
+                    intent: 'switchAudio',
+                    status: point.localStream.getAudioTracks()[0].enabled,
+                    codeCall: point.codeCall,
+                    name: name
+                }));
+            }
+        }
+    };
+    this.switchVideo = function(name) {
+        if (point.localStream) {
+            if (point.localStream.getVideoTracks()[0]) {
+                point.localStream.getVideoTracks()[0].enabled = !(point.localStream.getVideoTracks()[0].enabled);
+                point.socket.send(JSON.stringify({
+                    intent: 'switchVideo',
+                    status: point.localStream.getVideoTracks()[0].enabled,
+                    codeCall: point.codeCall,
+                    name: name
+                }));
+            }
+        }
     };
     this.finish = function(name) {
             if (point.codeCall === undefined || point.pc === undefined) {

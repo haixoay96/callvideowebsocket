@@ -160,6 +160,44 @@ var handleWebSocket = (wss) => {
                         }
                     });
                     break;
+                case 'switchAudio':
+                    if (!socket.name) {
+                        console.log('Not login');
+                        return;
+                    }
+                    var name = data.name;
+                    var codeCall = data.codeCall;
+                    var status = data.status;
+                    wss.clients.forEach(function each(client) {
+                        if (client.name === name) {
+                            client.send(JSON.stringify({
+                                intent: 'on_switch_audio',
+                                name: socket.name,
+                                codeCall: codeCall,
+                                status: status
+                            }));
+                        }
+                    });
+                    break;
+                case 'switchVideo':
+                    if (!socket.name) {
+                        console.log('Not login');
+                        return;
+                    }
+                    var name = data.name;
+                    var codeCall = data.codeCall;
+                    var status = data.status;
+                    wss.clients.forEach(function each(client) {
+                        if (client.name === name) {
+                            client.send(JSON.stringify({
+                                intent: 'on_switch_video',
+                                name: socket.name,
+                                codeCall: codeCall,
+                                status: status
+                            }));
+                        }
+                    });
+                    break;
                 case 'finish':
                     if (!socket.name) {
                         console.log('not login');
@@ -167,7 +205,7 @@ var handleWebSocket = (wss) => {
                     }
                     var name = data.name;
                     var codeCall = data.codeCall;
-                    console.log(socket.name + ' finish '+ name);
+                    console.log(socket.name + ' finish ' + name);
                     wss.clients.forEach(function each(client) {
                         if (client.name === name) {
                             client.send(JSON.stringify({

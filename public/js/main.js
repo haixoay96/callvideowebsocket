@@ -43,6 +43,12 @@ $('#buttonLogin').on('click', function() {
         pc.onRemoteStream = function(stream) {
             $('#remote').attr('src', window.URL.createObjectURL(stream));
         };
+        pc.onSwitchVideo = function (status) {
+                // when switch video
+        };
+        pc.onSwitchAudio = function (status) {
+            // when switch audio
+        };
         pc.onCancel = function() {
             clearTimeout(idTime);
             $('#iscalling').modal('toggle');
@@ -103,6 +109,12 @@ $('#buttonCall').on('click', function() {
     };
     pc.onRemoteStream = function(stream) {
         $('#remote').attr('src', window.URL.createObjectURL(stream));
+    };
+    pc.onSwitchVideo = function (status) {
+            // when switch video
+    };
+    pc.onSwitchAudio = function (status) {
+        // when switch audio
     };
     pc.onClose = function() {
         // Khi cuộc goi kết thúc đóng giao diện
