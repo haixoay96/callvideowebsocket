@@ -9,22 +9,23 @@ $('#buttonLogin').on('click', function() {
         console.log(video);
         var idTime = setTimeout(function() {
             console.log('Huy cuoc goi!');
-            $('#iscalling').modal('toggle');
+            $('#iscalling').modal('hide');
             pc.hangup();
         }, 20000);
-        $('#iscalling').modal('toggle');
+        $('#iscalling').modal('show');
         $('#iscalling').off('click');
         $('#iscalling').on('click', function(event) {
             var answer = event.target.getAttribute('answer');
             console.log(answer);
             if (answer === 'accept') {
                 console.log('tu choi');
-                $('#iscalling').modal('toggle');
+                $('#iscalling').modal('hide');
+                $('#myModal').modal('show');
                 pc.reply(true);
                 return;
             }
             if (answer === 'close') {
-                $('#iscalling').modal('toggle');
+                $('#iscalling').modal('hide');
                 clearTimeout(idTime);
                 pc.reply(false);
                 return;
@@ -51,18 +52,24 @@ $('#buttonLogin').on('click', function() {
         };
         pc.onCancel = function() {
             clearTimeout(idTime);
-            $('#iscalling').modal('toggle');
+            $('#iscalling').modal('hide');
             console.log('cancel');
         };
         pc.onClose = function() {
             // Khi cuộc goi kết thúc đóng giao diện
             clearTimeout(idTime);
+            $('#myModal').modal('hide');
             console.log('close');
 
         };
         pc.onSuccess = function() {
             clearTimeout(idTime);
             console.log('successfull');
+        };
+        pc.onFinish = function() {
+            console.log('finish!');
+            $('#myModal').modal('hide');
+            // đống giao diện
         };
     };
 });
@@ -74,16 +81,16 @@ $('#buttonCall').on('click', function() {
     pc.call(name, false);
     var idTime = setTimeout(function() {
         console.log('Huy cuoc goi!');
-        $('#callingto').modal('toggle');
+        $('#callingto').modal('hide');
         pc.cancelCall(name);
     }, 10000);
-    $('#callingto').modal('toggle');
+    $('#callingto').modal('show');
     $('#callingto').off('click');
     $('#callingto').on('click', function(event) {
         var answer = event.target.getAttribute('answer');
         console.log(answer);
         if (answer === 'close') {
-            $('#callingto').modal('toggle');
+            $('#callingto').modal('hide');
             pc.cancelCall(name);
             clearTimeout(idTime);
             return;
@@ -97,12 +104,14 @@ $('#buttonCall').on('click', function() {
 
     //call when want cancel call pc.cancelCall();
     pc.onReject = function() {
-        $('#callingto').modal('toggle');
+        $('#callingto').modal('hide');
         clearTimeout(idTime);
         console.log('Tu choi');
     };
     pc.onAccept = function() {
         console.log('Chap nhan cuoc goi');
+        $('#callingto').modal('hide');
+        $('#myModal').modal('show');
     };
     pc.onLocalStream = function(stream) {
         $('#local').attr('src', window.URL.createObjectURL(stream));
@@ -119,14 +128,15 @@ $('#buttonCall').on('click', function() {
     pc.onClose = function() {
         // Khi cuộc goi kết thúc đóng giao diện
         clearTimeout(idTime);
+        $('#myModal').modal('hide');
         console.log('close');
     };
     pc.onSuccess = function() {
-        $('#callingto').modal('toggle');
         clearTimeout(idTime);
         console.log('successfull');
     };
     pc.onFinish = function() {
+        $('#myModal').modal('hide');
         console.log('finish!');
         // đống giao diện
     };
