@@ -136,6 +136,10 @@ $('#buttonCall').on('click', function() {
 
 
 DetectRTC.load(function() {
+    //check DetectRTC.isSctpDataChannelsSupported
+//    DetectRTC.isRtpDataChannelsSupported
+//DetectRTC.isWebRTCSupported
+//DetectRTC.isMobileDevice
     DetectRTC.isScreenCapturingSupported
     DetectRTC.isSctpDataChannelsSupported
     DetectRTC.isRtpDataChannelsSupported

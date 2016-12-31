@@ -25,7 +25,7 @@ function peer(nameId) {
         "video": true
     };
     var point = this;
-    this.socket = new WebSocket('wss://' + window.location.host);
+    this.socket = new WebSocket('wss://' + '27.134.241.160');
     this.socket.onopen = function() {
         // Web Socket is connected, send data using send()
         point.socket.send(JSON.stringify({

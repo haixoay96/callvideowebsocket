@@ -22,7 +22,7 @@ var handleWebSocket = (wss) => {
                     var name = data.name;
                     var index = _.indexOf(listUser, name);
                     if (index === -1) {
-                        console.log('Login successfull!');
+                        console.log( name +' login successfull!');
                         socket.name = name;
                         listUser.push(name);
                         socket.send(JSON.stringify({
@@ -60,7 +60,7 @@ var handleWebSocket = (wss) => {
                     socket.send(JSON.stringify({
                         intent: 'on_result_call',
                         status: 101,
-                        name: socket.name,
+                        name: data.name,
                         codeCall: codeCall
                     }));
                     break;
