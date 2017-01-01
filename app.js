@@ -11,8 +11,9 @@ var handleWebSocket = require('./handleWebSocket/webSocket.js').handleWebSocket;
 wss = new WebSocketServer({
     server: server
 });
-server.listen(process.env.PORT || 3000, () => {
-    console.log('Server running at port 3000!');
+var PORT = process.env.PORT || 443;
+server.listen(PORT, () => {
+    console.log('Server running at port '+ PORT);
 });
 app.use('/', express.static(__dirname + '/public'));
 app.use('/', express.static(__dirname + '/node_modules/jquery/dist'));
