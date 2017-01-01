@@ -78,7 +78,7 @@ $('#buttonLogin').on('click', function() {
 
 $('#buttonCall').on('click', function() {
     var name = $('#inputCall').val();
-    pc.call(name, false);
+    pc.call(name, true);
     var idTime = setTimeout(function() {
         console.log('Huy cuoc goi!');
         $('#callingto').modal('hide');
