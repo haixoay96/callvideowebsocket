@@ -330,7 +330,7 @@ function peer(nameId) {
     };
     this.socket.onclose = function() {
         // websocket is closed.
-        console.log('Close');
+        console.log('Socket is disconnected!');
     };
 
     point.cancelCall = function(name) {
