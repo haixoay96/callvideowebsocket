@@ -31,6 +31,10 @@ var handleWebSocket = (wss) => {
                         }));
                         return;
                     }
+                    socket.send(JSON.stringify({
+                        intent: 'on_login',
+                        status: 101
+                    }));
                     console.log(name + ' had been login!');
                     break;
                 case 'call':
