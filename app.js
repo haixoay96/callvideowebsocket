@@ -11,7 +11,7 @@ var handleWebSocket = require('./handleWebSocket/webSocket.js').handleWebSocket;
 wss = new WebSocketServer({
     server: server
 });
-var PORT = process.env.PORT || 443;
+var PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log('Server running at port '+ PORT);
 });
