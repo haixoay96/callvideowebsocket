@@ -2,7 +2,6 @@ var listUser = require('../utils/listUser.js');
 var _ = require('lodash');
 var handleWebSocket = (wss) => {
     wss.on('connection', (socket) => {
-        console.log(wss.clients);
         socket.on('message', (msg) => {
             var data;
             try {
