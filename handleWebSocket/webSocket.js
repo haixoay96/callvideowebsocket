@@ -2,6 +2,7 @@ var listUser = require('../utils/listUser.js');
 var _ = require('lodash');
 var handleWebSocket = (wss) => {
     wss.on('connection', (socket) => {
+        console.log(wss.clients);
         socket.on('message', (msg) => {
             var data;
             try {
@@ -20,11 +21,11 @@ var handleWebSocket = (wss) => {
                         return;
                     }
                     var name = data.name;
-                    var index = _.indexOf(listUser, name);
+                    var index = _.indexOf(wss.clients, name);
                     if (index === -1) {
                         console.log( name +' login successfull!');
                         socket.name = name;
-                        listUser.push(name);
+                    //    listUser.push(name);
                         socket.send(JSON.stringify({
                             intent: 'on_login',
                             status: 100
@@ -45,7 +46,7 @@ var handleWebSocket = (wss) => {
                     var name = data.name;
                     var codeCall = data.codeCall;
                     var video = data.video;
-                    var index = _.indexOf(listUser, name);
+                    var index = _.indexOf(wss.clients, name);
                     if (index !== -1) {
                         console.log(socket.name + ' calling to ' + name);
                         wss.clients.forEach(function each(client) {
@@ -226,15 +227,10 @@ var handleWebSocket = (wss) => {
         });
         socket.on('close', () => {
             if (!socket.name) {
-                console.log('close');
+                console.log( socket.id +' close');
                 return;
             }
-            var index = _.indexOf(listUser, socket.name);
-            if (index !== -1) {
-                console.log('Remove ' + socket.name + ' successfull ' + __dirname);
-                listUser.splice(index, 1);
-            }
-            console.log('close');
+            console.log('Remove ' + socket.name + ' successfull ' + __dirname);
         });
     });
 }

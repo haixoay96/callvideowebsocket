@@ -13,7 +13,7 @@ wss = new WebSocketServer({
 });
 var PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log('Server running at port '+ PORT);
+    console.log('Server running at port '+ PORT+ ' !');
 });
 app.use('/', express.static(__dirname + '/public'));
 app.use('/', express.static(__dirname + '/node_modules/jquery/dist'));
