@@ -1,3 +1,4 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 var express = require('express');
 var app = express();
 var fs = require('fs');
@@ -13,7 +14,7 @@ var wss = new WebSocketServer({
 });
 var PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log('Server running at port '+ PORT+ ' !');
+    console.log('Server running at port ' + PORT + ' !');
 });
 app.use('/', express.static(__dirname + '/public'));
 app.use('/', express.static(__dirname + '/node_modules/jquery/dist'));
@@ -23,5 +24,4 @@ app.use('/', express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
-
 handleWebSocket(wss);

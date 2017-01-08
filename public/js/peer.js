@@ -98,12 +98,12 @@ function peer(nameId) {
                         };
                     }
                     point.pc = new RTCPeerConnection(config);
-                    point.pc.onaddstream = function(event) {
+                    point.pc.ontrack = function(event) {
                         console.log('remote');
-                        console.log(event.stream);
+                        console.log(event.streams[0]);
                         setTimeout(function() {
                             if (point.onRemoteStream) {
-                                point.onRemoteStream(event.stream);
+                                point.onRemoteStream(event.streams[0]);
                             }
                         }, 0);
                     };
@@ -154,19 +154,23 @@ function peer(nameId) {
                     }, 0);
                     return;
                 }
-                setTimeout(function() {
-                    if (point.onAccept) {
-                        point.onAccept();
-                    }
-                }, 0);
+                if (point.onAccept) {
+                    point.onAccept();
+                }
+                /*    setTimeout(function() {
+
+                        if (point.onAccept) {
+                            point.onAccept();
+                        }
+                    }, 0);*/
                 console.log(name + ' đồng ý cuộc gọi');
                 // prepare
-                point.pc.onaddstream = function(event) {
+                point.pc.ontrack = function(event) {
                     console.log('remote');
-                    console.log(event.stream);
+                    console.log(event.streams[0]);
                     setTimeout(function() {
                         if (point.onRemoteStream) {
-                            point.onRemoteStream(event.stream);
+                            point.onRemoteStream(event.streams[0]);
                         }
                     }, 0);
                 };
@@ -396,23 +400,23 @@ function peer(nameId) {
         }
     };
     this.finish = function(name) {
-            if (point.codeCall === undefined || point.pc === undefined) {
-                console.log('Cuoc goi chua duoc mo');
-                return;
-            }
-            point.socket.send(JSON.stringify({
-                intent: 'finish',
-                name: name,
-                codeCall: point.codeCall
-            }));
-            point.hangup();
+        if (point.codeCall === undefined || point.pc === undefined) {
+            console.log('Cuoc goi chua duoc mo');
+            return;
         }
-        // function clean
+        point.socket.send(JSON.stringify({
+            intent: 'finish',
+            name: name,
+            codeCall: point.codeCall
+        }));
+        point.hangup();
+    };
+    // function clean
     this.clean = function() {
             console.log('Clean');
             delete this.pc;
             delete this.codeCall;
-        }
+        };
         // function handle hangup
     this.hangup = function() {
         if (this.pc) {
@@ -439,7 +443,6 @@ function peer(nameId) {
         var pcx = event.target;
         console.log('[handleIceConnectionStateChange]', pcx.iceConnectionState)
         if (pcx.iceConnectionState === 'closed') {
-
             console.log('hangup');
         }
         if (pcx.iceConnectionState === 'disconnected') {
@@ -447,15 +450,18 @@ function peer(nameId) {
         }
         if (pcx.iceConnectionState === 'failed') {
             point.hangup();
+            console.log('failed');
             setTimeout(function() {
-                point.onClose();
+                if (point.onClose) {
+                    point.onClose();
+                }
             }, 0);
         }
         if (pcx.iceConnectionState === 'connected') {
             console.log('Call successdull');
             setTimeout(function() {
                 if (point.onSuccess) {
-                    point.onSuccess()
+                    point.onSuccess();
                 }
             }, 0);
         }

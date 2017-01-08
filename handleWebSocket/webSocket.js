@@ -1,5 +1,6 @@
 var listUser = require('../utils/listUser.js');
 var _ = require('lodash');
+var https = require('https');
 var handleWebSocket = (wss) => {
     wss.on('connection', (socket) => {
         socket.on('message', (msg) => {
@@ -31,6 +32,22 @@ var handleWebSocket = (wss) => {
                             intent: 'on_login',
                             status: 100
                         }));
+                        var options = {
+                            host: '127.0.0.1',
+                            port: 8443,
+                            path: '/Nihongonomori/api/v1/loginAddOnline?username='+ name,
+                            method: 'GET'
+                        };
+                        var req = https.request(options, function(res) {
+                            console.log(res.statusCode);
+                            res.on('data', function(d) {
+                                process.stdout.write(d);
+                            });
+                        });
+                        req.end();
+                        req.on('error', function(e) {
+                            console.error(e);
+                        });
                         return;
                     }
                     socket.send(JSON.stringify({
@@ -231,6 +248,25 @@ var handleWebSocket = (wss) => {
         socket.on('close', () => {
             console.log('close socket!');
             console.log('Remove ' + socket.name + ' successfull ' + __dirname);
+            if(!socket.name){
+                return;
+            }
+            var options = {
+                host: '127.0.0.1',
+                port: 8443,
+                path: '/Nihongonomori/api/v1/logout?username='+ socket.name,
+                method: 'GET'
+            };
+            var req = https.request(options, function(res) {
+                console.log(res.statusCode);
+                res.on('data', function(d) {
+                    process.stdout.write(d);
+                });
+            });
+            req.end();
+            req.on('error', function(e) {
+                console.error(e);
+            });
         });
     });
 }
