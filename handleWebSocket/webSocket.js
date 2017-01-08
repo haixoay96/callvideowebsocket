@@ -229,10 +229,7 @@ var handleWebSocket = (wss) => {
             }
         });
         socket.on('close', () => {
-            if (!socket.name) {
-                console.log(socket.id + ' close');
-                return;
-            }
+            console.log('close socket!');
             console.log('Remove ' + socket.name + ' successfull ' + __dirname);
         });
     });
