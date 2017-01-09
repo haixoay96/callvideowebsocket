@@ -25,8 +25,8 @@ var handleWebSocket = (wss) => {
                         name: name
                     });
                     if (index !== -1) {
+                        console.log('delete' +  wss.clients[index].name);
                         delete wss.clients[index].name;
-                        console.log('delete '+ name);
                     }
                     console.log(name + ' login successfull!');
                     socket.name = name;
