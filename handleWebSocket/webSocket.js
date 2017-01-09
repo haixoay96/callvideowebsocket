@@ -24,37 +24,32 @@ var handleWebSocket = (wss) => {
                     var index = _.findIndex(wss.clients, {
                         name: name
                     });
-                    if (index === -1) {
-                        console.log(name + ' login successfull!');
-                        socket.name = name;
-                        //    listUser.push(name);
-                        socket.send(JSON.stringify({
-                            intent: 'on_login',
-                            status: 100
-                        }));
-                        var options = {
-                            host: '127.0.0.1',
-                            port: 8443,
-                            path: '/Nihongonomori/api/v1/loginAddOnline?username='+ name,
-                            method: 'GET'
-                        };
-                        var req = https.request(options, function(res) {
-                            console.log(res.statusCode);
-                            res.on('data', function(d) {
-                                process.stdout.write(d);
-                            });
-                        });
-                        req.end();
-                        req.on('error', function(e) {
-                            console.error(e);
-                        });
-                        return;
+                    if (index !== -1) {
+                        delete wss.clients[index].name;
+                        console.log('delete '+ name);
                     }
+                    console.log(name + ' login successfull!');
+                    socket.name = name;
                     socket.send(JSON.stringify({
                         intent: 'on_login',
-                        status: 101
+                        status: 100
                     }));
-                    console.log(name + ' had been login!');
+                    var options = {
+                        host: '127.0.0.1',
+                        port: 8443,
+                        path: '/Nihongonomori/api/v1/loginAddOnline?username=' + name,
+                        method: 'GET'
+                    };
+                    var req = https.request(options, function(res) {
+                        console.log(res.statusCode);
+                        res.on('data', function(d) {
+                            process.stdout.write(d);
+                        });
+                    });
+                    req.end();
+                    req.on('error', function(e) {
+                        console.error(e);
+                    });
                     break;
                 case 'call':
                     if (!socket.name) {
@@ -248,13 +243,13 @@ var handleWebSocket = (wss) => {
         socket.on('close', () => {
             console.log('close socket!');
             console.log('Remove ' + socket.name + ' successfull ' + __dirname);
-            if(!socket.name){
+            if (!socket.name) {
                 return;
             }
             var options = {
                 host: '127.0.0.1',
                 port: 8443,
-                path: '/Nihongonomori/api/v1/logout?username='+ socket.name,
+                path: '/Nihongonomori/api/v1/logout?username=' + socket.name,
                 method: 'GET'
             };
             var req = https.request(options, function(res) {
